@@ -1,10 +1,11 @@
 #pragma once
 #include <iostream>
+#include <random>
 #include <fstream>
 #include <string>
 #include <vector>
 
-typedef std::vector<uint8_t> byteArray;
+using byteArray = std::vector<uint8_t>;
 
 
 inline size_t getsizeifstream(std::ofstream& instance) {
@@ -104,6 +105,5 @@ namespace MSF {
 		}
 
 	};
-
 
 }

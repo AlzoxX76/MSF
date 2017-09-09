@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -9,7 +10,7 @@
 namespace MSF {
 
 
-	std::string signExampleString("SIGN EXAMPLE");
+	const std::string signExampleString("SIGN EXAMPLE");
 	const byteArray signExample(signExampleString.begin(), signExampleString.end());
 
 #pragma region fileRead
