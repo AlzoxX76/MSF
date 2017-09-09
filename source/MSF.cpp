@@ -6,14 +6,11 @@
 #include "MSF.h"
 
 
-
 namespace MSF {
-
 
 	const std::string signExampleString("SIGN EXAMPLE");
 	const byteArray signExample(signExampleString.begin(), signExampleString.end());
 
-#pragma region fileRead
 
 	fileRead::fileRead() : m_isDataSign(false), m_sizeFich(0) {
 	}
@@ -68,10 +65,7 @@ namespace MSF {
 
 	size_t fileRead::gettotalsize() const { return m_isDataSign ? m_sizeFich - m_signFile.size() : m_sizeFich; }
 
-#pragma endregion
 
-
-#pragma region fileWrite
 
 	size_t fileWrite::getsizedatawritten() { return m_isDataSign ? getsizeifstream(*this) - m_signFile.size() : getsizeifstream(*this); }
 
@@ -109,7 +103,5 @@ namespace MSF {
 		if (isvalid())
 			std::ofstream::write(reinterpret_cast<char *>(data.data()), data.size());
 	}
-
-#pragma endregion
 
 }

@@ -42,7 +42,7 @@ inline size_t getdatasizeremaining(std::ifstream& instance) {
 
 namespace MSF {
 
-	extern const byteArray signExample;
+	const byteArray signExample;
 
 	class fileRead : private std::ifstream {
 
