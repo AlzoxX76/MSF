@@ -86,10 +86,10 @@ namespace MSF {
 	public:
 
 		fileWrite();
-		fileWrite(std::string path, byteArray signFile = signExample, bool isDataCrypt = false);
+		fileWrite(std::string path, byteArray signFile = signExample, bool isDataSign = false);
 		byteArray getsignfile() { return m_signFile; }
 		void setsignfile(byteArray signFile) { m_signFile = signFile; }
-		bool open(std::string path, bool isDataCrypt = false);
+		bool open(std::string path, bool isDataSign = false);
 		void close() { std::ofstream::close(); m_isDataSign = false; m_name = ""; }
 		size_t getsizedatawritten();
 		bool isdatasign() { return m_isDataSign; }

@@ -78,7 +78,7 @@ namespace MSF {
 	fileWrite::fileWrite() : m_isDataSign(false) {
 	}
 
-	fileWrite::fileWrite(std::string path, byteArray signFile, bool isDataCypt) : m_isDataSign(isDataCypt), m_name(path), m_signFile(signFile) {
+	fileWrite::fileWrite(std::string path, byteArray signFile, bool isDataSign) : m_isDataSign(isDataSign), m_name(path), m_signFile(signFile) {
 		std::ofstream::open(m_name, std::ios::binary | std::ios::out);
 		if (isvalid()) {
 			if (m_isDataSign) {
@@ -90,8 +90,8 @@ namespace MSF {
 		m_isDataSign = false;
 	}
 
-	bool fileWrite::open(std::string path, bool isDataCrypt) {
-		m_isDataSign = isDataCrypt;
+	bool fileWrite::open(std::string path, bool isDataSign) {
+		m_isDataSign = isDataSign;
 		m_name = path;
 		std::ofstream::open(m_name, std::ios::binary | std::ios::out);
 		if (isvalid()) {
