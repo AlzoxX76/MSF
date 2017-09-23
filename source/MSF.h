@@ -42,10 +42,11 @@ inline size_t getdatasizeremaining(std::ifstream& instance) {
 
 namespace MSF {
 
-	const byteArray signExample;
+	extern const byteArray signExample;
 
-	class fileRead : private std::ifstream {
+	class fileRead {
 
+		std::ifstream m_instance;
 		byteArray m_signFile;
 		std::string m_name;
 		bool m_isDataSign = false;
@@ -58,13 +59,13 @@ namespace MSF {
 		bool open(std::string path);
 		byteArray getsignfile() { return m_signFile; }
 		void setsignfile(byteArray signFile) { m_signFile = signFile; }
-		bool isvalid() { return !std::ifstream::fail(); }
+		bool isvalid() { return !m_instance.fail(); }
 		explicit operator bool() { return isvalid(); }
 		bool isdatasign() const { return m_isDataSign; }
-		void close() { std::ifstream::close(); }
+		void close() { m_instance.close(); }
 		std::string getname() const { return m_name; }
 		size_t gettotalsize() const;
-		size_t getremainingsize() { return getdatasizeremaining(*this); }
+		size_t getremainingsize() { return getdatasizeremaining(m_instance); }
 		void statut() {
 			std::cout << std::boolalpha;
 			std::cout << "isDataSign : " << m_isDataSign << std::endl
@@ -77,8 +78,9 @@ namespace MSF {
 
 	};
 
-	class fileWrite : private std::ofstream {
+	class fileWrite {
 
+		std::ofstream m_instance;
 		byteArray m_signFile;
 		std::string m_name;
 		bool m_isDataSign = false;
@@ -90,10 +92,10 @@ namespace MSF {
 		byteArray getsignfile() { return m_signFile; }
 		void setsignfile(byteArray signFile) { m_signFile = signFile; }
 		bool open(std::string path, bool isDataSign = false);
-		void close() { std::ofstream::close(); m_isDataSign = false; m_name = ""; }
+		void close() { m_instance.close(); m_isDataSign = false; m_name = ""; }
 		size_t getsizedatawritten();
 		bool isdatasign() { return m_isDataSign; }
-		bool isvalid() { return !std::ofstream::fail(); }
+		bool isvalid() { return !m_instance.fail(); }
 		explicit operator bool() { return isvalid(); }
 		void write(byteArray data);
 		void statut() {

@@ -16,29 +16,29 @@ namespace MSF {
 	}
 
 	fileRead::fileRead(std::string path, byteArray signFile) : m_signFile(signFile) {
-		std::ifstream::open(path, std::ios::binary | std::ios::in);
+		m_instance.open(path, std::ios::binary | std::ios::in);
 		if (isvalid()) {
 			m_name = path;
-			m_sizeFich = getsizeifstream(*this);
+			m_sizeFich = getsizeifstream(m_instance);
 			if (m_sizeFich > m_signFile.size()) {
 				byteArray buf(m_signFile);
-				std::ifstream::read(reinterpret_cast<char *>(buf.data()), m_signFile.size());
+				m_instance.read(reinterpret_cast<char *>(buf.data()), m_signFile.size());
 				if (m_isDataSign = buf == m_signFile; !m_isDataSign)
-					std::ifstream::seekg(std::ios::beg);
+					m_instance.seekg(std::ios::beg);
 			}
 		}
 	}
 
 	bool fileRead::open(std::string path) {
-		std::ifstream::open(path, std::ios::binary | std::ios::in);
+		m_instance.open(path, std::ios::binary | std::ios::in);
 		if (isvalid()) {
 			m_name = path;
-			m_sizeFich = getsizeifstream(*this);
+			m_sizeFich = getsizeifstream(m_instance);
 			if (m_sizeFich > m_signFile.size()) {
 				byteArray buf;
-				std::ifstream::read(reinterpret_cast<char *>(buf.data()), m_signFile.size());
+				m_instance.read(reinterpret_cast<char *>(buf.data()), m_signFile.size());
 				if (m_isDataSign = buf == m_signFile; !m_isDataSign)
-					std::ifstream::seekg(std::ios::beg);
+					m_instance.seekg(std::ios::beg);
 			}
 		}
 		return isvalid();
@@ -47,17 +47,17 @@ namespace MSF {
 	byteArray fileRead::getbloc(size_t sizeBloc) {
 		byteArray buf;
 		if (isvalid()) {
-			if (size_t dataRemaining = getdatasizeremaining(*this); dataRemaining < sizeBloc) {
+			if (size_t dataRemaining = getdatasizeremaining(m_instance); dataRemaining < sizeBloc) {
 				buf.resize(dataRemaining);
-				std::ifstream::read(reinterpret_cast<char *>(buf.data()), dataRemaining * sizeof(char));
-				std::ifstream::close();
+				m_instance.read(reinterpret_cast<char *>(buf.data()), dataRemaining * sizeof(char));
+				m_instance.close();
 				m_isDataSign = false;
 				m_name = "";
 				m_sizeFich = 0;
 			}
 			else {
 				buf.resize(sizeBloc);
-				std::ifstream::read(reinterpret_cast<char *>(buf.data()), sizeBloc);
+				m_instance.read(reinterpret_cast<char *>(buf.data()), sizeBloc);
 			}
 		}
 		return buf;
@@ -67,16 +67,16 @@ namespace MSF {
 
 
 
-	size_t fileWrite::getsizedatawritten() { return m_isDataSign ? getsizeifstream(*this) - m_signFile.size() : getsizeifstream(*this); }
+	size_t fileWrite::getsizedatawritten() { return m_isDataSign ? getsizeifstream(m_instance) - m_signFile.size() : getsizeifstream(m_instance); }
 
 	fileWrite::fileWrite() : m_isDataSign(false) {
 	}
 
 	fileWrite::fileWrite(std::string path, byteArray signFile, bool isDataSign) : m_isDataSign(isDataSign), m_name(path), m_signFile(signFile) {
-		std::ofstream::open(m_name, std::ios::binary | std::ios::out);
+		m_instance.open(m_name, std::ios::binary | std::ios::out);
 		if (isvalid()) {
 			if (m_isDataSign) {
-				std::ofstream::write(reinterpret_cast<char *>(m_signFile.data()), m_signFile.size());
+				m_instance.write(reinterpret_cast<char *>(m_signFile.data()), m_signFile.size());
 			}
 			return;
 		}
@@ -87,10 +87,10 @@ namespace MSF {
 	bool fileWrite::open(std::string path, bool isDataSign) {
 		m_isDataSign = isDataSign;
 		m_name = path;
-		std::ofstream::open(m_name, std::ios::binary | std::ios::out);
+		m_instance.open(m_name, std::ios::binary | std::ios::out);
 		if (isvalid()) {
 			if (m_isDataSign) {
-				std::ofstream::write(reinterpret_cast<char *>(m_signFile.data()), m_signFile.size());
+				m_instance.write(reinterpret_cast<char *>(m_signFile.data()), m_signFile.size());
 			}
 			return true;
 		}
@@ -101,7 +101,7 @@ namespace MSF {
 
 	void fileWrite::write(byteArray data) {
 		if (isvalid())
-			std::ofstream::write(reinterpret_cast<char *>(data.data()), data.size());
+			m_instance.write(reinterpret_cast<char *>(data.data()), data.size());
 	}
 
 }
