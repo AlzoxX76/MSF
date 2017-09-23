@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 
-using byteArray = std::vector<uint8_t>;
-
 
 inline size_t getsizeifstream(std::ofstream& instance) {
 	size_t buf = static_cast<size_t>(instance.tellp());
@@ -42,6 +40,7 @@ inline size_t getdatasizeremaining(std::ifstream& instance) {
 
 namespace MSF {
 
+	using byteArray = std::vector<uint8_t>;
 	extern const byteArray signExample;
 
 	class fileRead {
