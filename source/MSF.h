@@ -54,8 +54,8 @@ namespace MSF {
 	public:
 
 		fileRead();
-		fileRead(std::string path, byteArray signFi = signExample);
-		bool open(std::string path);
+		fileRead(const std::string& path, byteArray signFi = signExample);
+		bool open(const std::string& path);
 		byteArray getsignfile() { return m_signFile; }
 		void setsignfile(byteArray signFile) { m_signFile = signFile; }
 		bool isvalid() { return !m_instance.fail(); }
@@ -87,10 +87,10 @@ namespace MSF {
 	public:
 
 		fileWrite();
-		fileWrite(std::string path, byteArray signFile = signExample, bool isDataSign = false);
+		fileWrite(const std::string& path, byteArray signFile = signExample, bool isDataSign = false);
 		byteArray getsignfile() { return m_signFile; }
 		void setsignfile(byteArray signFile) { m_signFile = signFile; }
-		bool open(std::string path, bool isDataSign = false);
+		bool open(const std::string& path, bool isDataSign = false);
 		void close() { m_instance.close(); m_isDataSign = false; m_name = ""; }
 		size_t getsizedatawritten();
 		bool isdatasign() { return m_isDataSign; }
