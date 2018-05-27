@@ -15,7 +15,7 @@ namespace MSF {
 	fileRead::fileRead() : m_isDataSign(false), m_sizeFich(0) {
 	}
 
-	fileRead::fileRead(std::string path, byteArray signFile) : m_signFile(signFile) {
+	fileRead::fileRead(const std::string& path, byteArray signFile) : m_signFile(signFile) {
 		m_instance.open(path, std::ios::binary | std::ios::in);
 		if (isvalid()) {
 			m_name = path;
@@ -29,7 +29,7 @@ namespace MSF {
 		}
 	}
 
-	bool fileRead::open(std::string path) {
+	bool fileRead::open(const std::string& path) {
 		m_instance.open(path, std::ios::binary | std::ios::in);
 		if (isvalid()) {
 			m_name = path;
@@ -72,7 +72,7 @@ namespace MSF {
 	fileWrite::fileWrite() : m_isDataSign(false) {
 	}
 
-	fileWrite::fileWrite(std::string path, byteArray signFile, bool isDataSign) : m_isDataSign(isDataSign), m_name(path), m_signFile(signFile) {
+	fileWrite::fileWrite(const std::string& path, byteArray signFile, bool isDataSign) : m_isDataSign(isDataSign), m_name(path), m_signFile(signFile) {
 		m_instance.open(m_name, std::ios::binary | std::ios::out);
 		if (isvalid()) {
 			if (m_isDataSign) {
@@ -84,7 +84,7 @@ namespace MSF {
 		m_isDataSign = false;
 	}
 
-	bool fileWrite::open(std::string path, bool isDataSign) {
+	bool fileWrite::open(const std::string& path, bool isDataSign) {
 		m_isDataSign = isDataSign;
 		m_name = path;
 		m_instance.open(m_name, std::ios::binary | std::ios::out);
